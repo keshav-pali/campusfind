@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import itemRoutes from "./routes/itemRoutes.js";
 
 dotenv.config();
 
@@ -17,6 +19,8 @@ app.use(express.json());
 
 // Routes
 app.use("/", userRoutes);
+app.use("/", authRoutes);
+app.use("/", itemRoutes);
 
 // Home Route
 app.get("/", (req, res) => {
