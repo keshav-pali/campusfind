@@ -7,9 +7,12 @@ import {
   getSingleItem,
   updateItem,
   deleteItem,
+  getMyItems,
 } from "../controllers/itemController.js";
 
 const router = express.Router();
+
+router.get("/my-items", isAuthenticated, getMyItems);
 
 router.post("/items", isAuthenticated, createItem);
 

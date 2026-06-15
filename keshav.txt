@@ -1,0 +1,44 @@
+{
+    "success": true,
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMmU4NzE0NGEyNmU2YzY2NmZhNDdlNCIsImlhdCI6MTc4MTUwMjE3OCwiZXhwIjoxNzgyMTA2OTc4fQ.VnSGaO0T-3Xg3_0QQIZDSfo3kNu0cAeF-alFOQuyhz8",
+    "user": {
+        "_id": "6a2e87144a26e6c666fa47e4",
+        "name": "Keshav",
+        "email": "keshav@gmail.com"
+    }
+}
+
+
+
+{
+    "success": true,
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMmY5MTk2ZDFjODUzYjU5YjNmYWQ2NyIsImlhdCI6MTc4MTUwMjQwNCwiZXhwIjoxNzgyMTA3MjA0fQ.hkbz8J4Sd4KcIJCki7j1xDR0lphXafJvP8V3idbIU70",
+    "user": {
+        "_id": "6a2f9196d1c853b59b3fad67",
+        "name": "karan",
+        "email": "karan@gmail.com"
+    }
+}
+
+
+
+{
+    "success": true,
+    "item": {
+        "title": "MacBook Pro",
+        "description": "Lost near library",
+        "category": "Electronics",
+        "location": "Central Library",
+        "date": "2026-06-15T00:00:00.000Z",
+        "image": "",
+        "itemType": "LOST",
+        "status": "ACTIVE",
+        "user": "6a2e87144a26e6c666fa47e4",
+        "_id": "6a2f98f1d1c853b59b3fad68",
+        "createdAt": "2026-06-15T06:17:21.481Z",
+        "updatedAt": "2026-06-15T06:17:21.481Z",
+        "__v": 0
+    }
+}
