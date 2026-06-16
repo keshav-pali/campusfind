@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import itemRoutes from "./routes/itemRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/", userRoutes);
 app.use("/", authRoutes);
 app.use("/", itemRoutes);
+app.use("/", uploadRoutes);
 
 // Home Route
 app.get("/", (req, res) => {
