@@ -1,10 +1,27 @@
+import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import HeroSection from "../components/HeroSection";
 import FeatureCard from "../components/FeatureCard";
 import SearchBar from "../components/SearchBar";
 import ItemCard from "../components/ItemCard";
+import API from "../services/api";
 
 const Home = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const { data } = await API.get("/items");
+        setItems(data.items);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
   return (
     <MainLayout>
       {/* Hero Section */}
@@ -47,23 +64,17 @@ const Home = () => {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-6">
-                    <ItemCard
-            title="Lost Wallet"
-            location="Central Library"
-            status="Lost"
-            />
-
-            <ItemCard
-            title="Student ID Card"
-            location="Canteen"
-            status="Lost"
-            />
-
-            <ItemCard
-            title="Scientific Calculator"
-            location="Lab Block"
-            status="Lost"
-            />
+          {items
+            .filter((item) => item.itemType === "LOST")
+            .slice(0, 3)
+            .map((item) => (
+              <ItemCard
+                key={item._id}
+                title={item.title}
+                location={item.location}
+                status="Lost"
+              />
+            ))}
         </div>
 
         {/* Recent Found Items */}
@@ -72,23 +83,17 @@ const Home = () => {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-6">
-                    <ItemCard
-            title="Water Bottle"
-            location="Auditorium"
-            status="Found"
-            />
-
-            <ItemCard
-            title="Headphones"
-            location="Hostel Block"
-            status="Found"
-            />
-
-            <ItemCard
-            title="USB Drive"
-            location="Computer Center"
-            status="Found"
-            />
+          {items
+            .filter((item) => item.itemType === "FOUND")
+            .slice(0, 3)
+            .map((item) => (
+              <ItemCard
+                key={item._id}
+                title={item.title}
+                location={item.location}
+                status="Found"
+              />
+            ))}
         </div>
       </div>
     </MainLayout>

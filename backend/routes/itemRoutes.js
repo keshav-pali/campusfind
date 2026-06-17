@@ -14,7 +14,8 @@ const router = express.Router();
 
 router.get("/my-items", isAuthenticated, getMyItems);
 
-router.post("/items", isAuthenticated, createItem);
+//router.post("/items", isAuthenticated, createItem);
+router.post("/items", createItem);
 
 router.get("/items", getAllItems);
 

@@ -4,9 +4,8 @@ import Item from "../models/Item.js";
 export const createItem = async (req, res) => {
   try {
     const item = new Item({
-      ...req.body,
-      user: req.user.id,
-    });
+  ...req.body,
+});
 
     await item.save();
 

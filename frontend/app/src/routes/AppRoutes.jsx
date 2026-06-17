@@ -8,6 +8,7 @@ import FoundItems from "../pages/FoundItems";
 import PostItem from "../pages/PostItem";
 import Profile from "../pages/Profile";
 import ItemDetails from "../pages/ItemDetails";
+import RecoveredItems from "../pages/RecoveredItems";
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
       <Route path="/post-item" element={<PostItem />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/item/:id" element={<ItemDetails />} />
+      <Route path="/recovered-items" element={<RecoveredItems />} />
     </Routes>
   );
 }

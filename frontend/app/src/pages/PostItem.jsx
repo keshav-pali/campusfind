@@ -1,6 +1,88 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import API from "../services/api";
 
 const PostItem = () => {
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    category: "",
+    location: "",
+    itemType: "",
+    image: "",
+  });
+
+  const [file, setFile] = useState(null);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleImageChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      let imageUrl = "";
+
+      // Upload Image to Cloudinary
+      if (file) {
+        const imageData = new FormData();
+        imageData.append("image", file);
+
+        const uploadRes = await API.post(
+          "/upload-image",
+          imageData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        imageUrl = uploadRes.data.imageUrl;
+      }
+
+      // Create Item
+      await API.post("/items", {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        location: formData.location,
+        date: new Date(),
+        image: imageUrl,
+        itemType: formData.itemType,
+      });
+
+      alert("✅ Item Posted Successfully!");
+
+      if (formData.itemType === "LOST") {
+        navigate("/lost-items");
+      } else {
+        navigate("/found-items");
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to post item");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="max-w-3xl mx-auto py-12 px-4">
@@ -15,7 +97,10 @@ const PostItem = () => {
             Report a lost or found item on campus
           </p>
 
-          <form className="space-y-5">
+          <form
+            className="space-y-5"
+            onSubmit={handleSubmit}
+          >
 
             {/* Title */}
             <div>
@@ -25,8 +110,12 @@ const PostItem = () => {
 
               <input
                 type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
                 placeholder="e.g. Wallet, ID Card, Laptop"
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                required
               />
             </div>
 
@@ -38,8 +127,12 @@ const PostItem = () => {
 
               <textarea
                 rows="4"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
                 placeholder="Describe the item..."
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                required
               />
             </div>
 
@@ -50,9 +143,13 @@ const PostItem = () => {
               </label>
 
               <select
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                required
               >
-                <option>Select Category</option>
+                <option value="">Select Category</option>
                 <option>Electronics</option>
                 <option>ID Card</option>
                 <option>Books</option>
@@ -70,8 +167,12 @@ const PostItem = () => {
 
               <input
                 type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
                 placeholder="Where was it lost/found?"
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                required
               />
             </div>
 
@@ -82,15 +183,19 @@ const PostItem = () => {
               </label>
 
               <select
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="itemType"
+                value={formData.itemType}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                required
               >
-                <option>Select Type</option>
-                <option>Lost</option>
-                <option>Found</option>
+                <option value="">Select Type</option>
+                <option value="LOST">Lost</option>
+                <option value="FOUND">Found</option>
               </select>
             </div>
 
-            {/* Image Upload */}
+            {/* Image */}
             <div>
               <label className="block mb-2 font-medium">
                 Upload Image
@@ -98,16 +203,17 @@ const PostItem = () => {
 
               <input
                 type="file"
+                onChange={handleImageChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3"
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
             >
-              Submit Item
+              {loading ? "Uploading..." : "Submit Item"}
             </button>
 
           </form>
@@ -117,4 +223,6 @@ const PostItem = () => {
   );
 };
 
+
 export default PostItem;
+

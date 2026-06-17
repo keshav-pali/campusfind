@@ -5,6 +5,7 @@ import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import itemRoutes from "./routes/itemRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ const app = express();
 connectDB();
 
 // Middleware
+app.use(cors());
+
 app.use(express.json());
 
 // Routes
@@ -34,3 +37,6 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
+
+
